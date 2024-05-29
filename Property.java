@@ -4,11 +4,11 @@ public class Property extends Square {
     private int rent;
     private Player owner;
 
-    public Property(String name, int price) {
+    public Property(String name, int price, int rent) {
         super(name);
         this.price = price;
-        this.owner = null;
-        rent = 0;
+        owner = null;
+        this.rent = rent;
     }
 
     public int getPrice() {

@@ -4,7 +4,6 @@ public class Die {
 
     public int roll() {
         System.out.print("Press enter to roll");
-        Input.read();
         roll1 = (int) (Math.random() * 6 + 1);
         roll2 = (int) (Math.random() * 6 + 1);
 
