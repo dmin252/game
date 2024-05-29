@@ -1,6 +1,6 @@
 public class Square {
     private String name;
-    
+
     public Square(String name) {
         this.name = name;
 
@@ -8,5 +8,9 @@ public class Square {
 
     public String getName() {
         return name;
+    }
+
+    public String toString() {
+        return "Square " + name;
     }
 }

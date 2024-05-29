@@ -1,22 +1,20 @@
 public class Property extends Square {
     // instance variables
-    private int price;
-    private int rent;
+    private int purchasePrice;
     private Player owner;
 
-    public Property(String name, int price, int rent) {
+    public Property(String name, int purchasePrice) {
         super(name);
-        this.price = price;
+        this.purchasePrice = purchasePrice;
         owner = null;
-        this.rent = rent;
     }
 
-    public int getPrice() {
-        return price;
+    public int getpurchasePrice() {
+        return purchasePrice;
     }
 
-    public int getRent() {
-        return rent;
+    public int getCost() {
+        return 10;
     }
 
     public Player getOwner() {
@@ -28,7 +26,7 @@ public class Property extends Square {
     }
 
     public String toString() {
-        return "$" + price + " " + getName();
+        return "Property " + getName() + " owned by " + owner.getName();
     }
 
 }
