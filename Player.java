@@ -5,11 +5,15 @@ public class Player {
     private String name;
     private int money;
     private int position;
+    private boolean inJail;
+    private int jailTurns;
 
     public Player(String name, int money) {
         this.name = name;
         this.money = money;
         position = 0;
+        inJail = false;
+        jailTurns = 0;
     }
 
     public String getPropertiesNames() {
@@ -50,5 +54,20 @@ public class Player {
 
     public void removeProperty(int indexProperty) {
         properties.remove(indexProperty);
+    }
+    public boolean isInJail() {
+        return inJail;
+    }
+
+    public void setInJail(boolean inJail) {
+        this.inJail = inJail;
+    }
+
+    public int getJailTurns() {
+        return jailTurns;
+    }
+
+    public void setJailTurns(int jailTurns) {
+        this.jailTurns = jailTurns;
     }
 }

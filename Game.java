@@ -32,14 +32,43 @@ public class Game {
     }
 
     public static void movePlayer(Player player, int roll) {
-        int newPosition = (player.getPosition() + roll) % boardSquares.size();
-        player.setPosition(newPosition);
-        if (player.getPosition() + roll >= boardSquares.size()) {
-            player.setMoney(player.getMoney() + 200);
-            System.out.println(player.getName() + " passed Go and collected $200");
+        if (player.isInJail()) {
+            System.out.println(player.getName() + " is in jail for " + player.getJailTurns() + " more turns.");
+            if (player instanceof Human) {
+                System.out.println("Do you want to pay $50 to get out of jail? (y/n)");
+                String input = scanner.nextLine();
+                if (input.equals("y") && player.getMoney() >= 50) {
+                    player.setMoney(player.getMoney() - 50);
+                    player.setInJail(false);
+                    player.setJailTurns(0);
+                    System.out.println(player.getName() + " paid $50 and got out of jail.");
+                    movePlayer(player, roll); 
+                } else {
+                    player.setJailTurns(player.getJailTurns() - 1);
+                    if (player.getJailTurns() == 0) {
+                        player.setInJail(false);
+                        System.out.println(player.getName() + " served the jail time and is out of jail.");
+                        movePlayer(player, roll);  
+                    }
+                }
+            } else {
+                player.setJailTurns(player.getJailTurns() - 1);
+                if (player.getJailTurns() == 0) {
+                    player.setInJail(false);
+                    System.out.println(player.getName() + " served the jail time and is out of jail.");
+                    movePlayer(player, roll);  
+                }
+            }
+        } else {
+            int newPosition = (player.getPosition() + roll) % boardSquares.size();
+            player.setPosition(newPosition);
+            if (player.getPosition() + roll >= boardSquares.size()) {
+                player.setMoney(player.getMoney() + 200);
+                System.out.println(player.getName() + " passed Go and collected $200");
+            }
+            System.out.println(player.getName() + " moved to " + boardSquares.get(newPosition).getName());
+            handleSquare(player, boardSquares.get(newPosition));
         }
-        System.out.println(player.getName() + " moved to " + boardSquares.get(newPosition).getName());
-        handleSquare(player, boardSquares.get(newPosition));
     }
 
     public static void handleSquare(Player player, Square square) {
@@ -110,6 +139,25 @@ public class Game {
         System.out.println(player.getName() + "'s turn:");
         int roll = Dice.roll();
         movePlayer(player, roll);
+
+        if (player instanceof Human && !player.isInJail()) {
+            System.out.println("Do you want to buy a house? (y/n)");
+            String input = scanner.nextLine();
+            if (input.equals("y")) {
+                buildHouses(player);
+            }
+        } else if (player instanceof AI && !player.isInJail()) {
+            for (Property property : player.getProperties()) {
+                if (property instanceof RealEstate) {
+                    RealEstate realEstate = (RealEstate) property;
+                    if (realEstate.getNumberHouses() < RealEstate.MAX_HOUSES && ownsColorSet(player, realEstate.getColor())
+                        && player.getMoney() >= realEstate.getHouseCost() && ((AI) player).getBuyDecision()) {
+                        buildHouses(player);
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     public static void addPlayers() {
@@ -117,4 +165,37 @@ public class Game {
         players.add(new AI("Player 2", STARTING_MONEY));
         players.add(new Human("HumanPlayer", STARTING_MONEY));
     }
+    public static boolean ownsColorSet(Player player, String color) {
+        int totalProperties = 0;
+        int ownedProperties = 0;
+    
+        for (Square square : boardSquares) {
+            if (square instanceof RealEstate) {
+                RealEstate realEstate = (RealEstate) square;
+                if (realEstate.getColor().equals(color)) {
+                    totalProperties++;
+                    if (realEstate.getOwner() == player) {
+                        ownedProperties++;
+                    }
+                }
+            }
+        }
+        return totalProperties == ownedProperties;
+    }
+
+    public static void buildHouses(Player player) {
+        System.out.println(player.getName() + " is building houses.");
+        for (Square square : boardSquares) {
+            if (square instanceof RealEstate) {
+                RealEstate realEstate = (RealEstate) square;
+                if (realEstate.getOwner() == player && ownsColorSet(player, realEstate.getColor())) {
+                    realEstate.incrementNumberHouses();
+                    player.setMoney(player.getMoney() - realEstate.getHouseCost());
+                    System.out.println(player.getName() + " built a house on " + realEstate.getName());
+                }
+            }
+        }
+    }
+    
+    
 }
