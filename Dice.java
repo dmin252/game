@@ -1,4 +1,4 @@
-public class Die {
+public class Dice {
 
     public static int roll() {
         int roll1 = (int) (Math.random() * 6 + 1);

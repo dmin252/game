@@ -12,6 +12,14 @@ public class Player {
         position = 0;
     }
 
+    public String getPropertiesNames() {
+        String names = "";
+        for (Property p : properties) {
+            names += p.getName() + ", ";
+        }
+        return names;
+    }
+
     public String getName() {
         return name;
     }
