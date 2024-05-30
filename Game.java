@@ -35,10 +35,8 @@ public class Game {
             // Handle Free Parking
             System.out.println(player.getName() + " landed on Free Parking.");
         } else if (square instanceof Chance) {
-            // Handle Chance
             System.out.println(player.getName() + " landed on Chance.");
         } else if (square instanceof CommunityChest) {
-            // Handle Community Chest
             System.out.println(player.getName() + " landed on Community Chest.");
         }
     }
