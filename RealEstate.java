@@ -25,6 +25,10 @@ public class RealEstate extends Property {
         }
     }
 
+    public void setNumberHouses(int numberHouses) {
+        this.numberHouses = numberHouses;
+    }
+
     public int getHouseCost() {
         return 50;  // Example house cost, can vary
     }
