@@ -32,19 +32,7 @@ public class Game {
     }
 
     public static void movePlayer(Player player, int roll) {
-        if (Dice.isDouble()) {
-            player.setRollTurns(player.getRollTurns() + 1);
-            if (player.getRollTurns() == 3) {
-                player.setPosition(10);
-                player.setInJail(true);
-                player.setJailTurns(3);
-                player.setRollTurns(0);
-                System.out.println(player.getName() + " rolled doubles 3 times in a row and is now in jail.");
-            } else {
-                System.out.println(player.getName() + " rolled a double and gets to roll again.");
-                takeTurn(player);
-            }
-        } else if (player.isInJail() && !Dice.isDouble()) {
+        if (player.isInJail() && !Dice.isDouble()) {
             player.setJailTurns(player.getJailTurns() - 1);
             System.out.println(player.getName() + " is in jail for " + player.getJailTurns() + " more turns.");
             if (player instanceof Human) {
@@ -79,7 +67,7 @@ public class Game {
                 player.setInJail(false);
                 player.setJailTurns(0);
                 System.out.println(player.getName() + " rolled a double and is out of jail.");
-            }
+            } 
             int oldPosition = player.getPosition();
             int newPosition = (oldPosition + roll) % boardSquares.size();
             player.setPosition(newPosition);
@@ -89,6 +77,19 @@ public class Game {
             }
             System.out.println(player.getName() + " moved to " + boardSquares.get(newPosition).getName());
             handleSquare(player, boardSquares.get(newPosition));
+            if (Dice.isDouble() && !player.isInJail()) {
+                player.setRollTurns(player.getRollTurns() + 1);
+                if (player.getRollTurns() == 3) {
+                    player.setPosition(10);
+                    player.setInJail(true);
+                    player.setJailTurns(3);
+                    player.setRollTurns(0);
+                    System.out.println(player.getName() + " rolled doubles 3 times in a row and is now in jail.");
+                } else {
+                    System.out.println(player.getName() + " rolled a double and gets to roll again.");
+                    takeTurn(player);
+                }
+            } 
         }
     }
 
