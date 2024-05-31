@@ -15,7 +15,7 @@ public class Board {
         board.add(new Chance());
         board.add(new RealEstate("Vermont Avenue", 100, "Light Blue"));
         board.add(new RealEstate("Connecticut Avenue", 120, "Light Blue"));
-        board.add(new Jail("Jail"));
+        board.add(new Jail());
         board.add(new RealEstate("St. Charles Place", 140, "Pink"));
         board.add(new Utility("Electric Company"));
         board.add(new RealEstate("States Avenue", 140, "Pink"));
@@ -35,7 +35,7 @@ public class Board {
         board.add(new RealEstate("Ventnor Avenue", 260, "Yellow"));
         board.add(new Utility("Water Works"));
         board.add(new RealEstate("Marvin Gardens", 280, "Yellow"));
-        board.add(new FreeParking());
+        board.add(new GoToJail());
         board.add(new RealEstate("Pacific Avenue", 300, "Green"));
         board.add(new RealEstate("North Carolina Avenue", 300, "Green"));
         board.add(new CommunityChest());

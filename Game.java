@@ -32,37 +32,46 @@ public class Game {
     }
 
     public static void movePlayer(Player player, int roll) {
-        if (player.isInJail()) {
+        if (player.isInJail() && !Dice.isDouble()) {
+            player.setJailTurns(player.getJailTurns() - 1);
             System.out.println(player.getName() + " is in jail for " + player.getJailTurns() + " more turns.");
             if (player instanceof Human) {
-                System.out.println("Do you want to pay $50 to get out of jail? (y/n)");
-                String input = scanner.nextLine();
-                if (input.equals("y") && player.getMoney() >= 50) {
-                    player.setMoney(player.getMoney() - 50);
-                    player.setInJail(false);
-                    player.setJailTurns(0);
-                    System.out.println(player.getName() + " paid $50 and got out of jail.");
-                    movePlayer(player, roll); 
-                } else {
-                    player.setJailTurns(player.getJailTurns() - 1);
-                    if (player.getJailTurns() == 0) {
-                        player.setInJail(false);
-                        System.out.println(player.getName() + " served the jail time and is out of jail.");
-                        movePlayer(player, roll);  
-                    }
-                }
-            } else {
-                player.setJailTurns(player.getJailTurns() - 1);
                 if (player.getJailTurns() == 0) {
                     player.setInJail(false);
                     System.out.println(player.getName() + " served the jail time and is out of jail.");
-                    movePlayer(player, roll);  
+                    movePlayer(player, roll);
+                } else {
+                    if (player.getMoney() >= 50) {
+                        System.out.println("Do you want to pay $50 to get out of jail? (y/n)");
+                        String input = scanner.nextLine();
+                        if (input.equals("y")) {
+                            player.setMoney(player.getMoney() - 50);
+                            player.setInJail(false);
+                            player.setJailTurns(0);
+                            System.out.println(player.getName() + " paid $50 and got out of jail.");
+                            movePlayer(player, roll);
+                        }
+                    } else {
+                        System.out.println(player.getName() + " does not have enough money to pay the $50 fine.");
+                    }
+                }
+            } else {
+                if (player.getJailTurns() == 0) {
+                    player.setInJail(false);
+                    System.out.println(player.getName() + " served the jail time and is out of jail.");
+                    movePlayer(player, roll);
                 }
             }
         } else {
-            int newPosition = (player.getPosition() + roll) % boardSquares.size();
+            if (player.isInJail() && Dice.isDouble()) {
+                player.setInJail(false);
+                player.setJailTurns(0);
+                System.out.println(player.getName() + " rolled a double and is out of jail.");
+            }
+            int oldPosition = player.getPosition();
+            int newPosition = (oldPosition + roll) % boardSquares.size();
             player.setPosition(newPosition);
-            if (player.getPosition() + roll >= boardSquares.size()) {
+            if (oldPosition + roll >= boardSquares.size()) {
                 player.setMoney(player.getMoney() + 200);
                 System.out.println(player.getName() + " passed Go and collected $200");
             }
@@ -81,6 +90,11 @@ public class Game {
             System.out.println(player.getName() + " landed on Chance.");
         } else if (square instanceof CommunityChest) {
             System.out.println(player.getName() + " landed on Community Chest.");
+        } else if (square instanceof GoToJail) {
+            player.setPosition(10);
+            player.setInJail(true);
+            player.setJailTurns(3);
+            System.out.println(player.getName() + " landed on Go To Jail and is now in jail.");
         }
     }
 
@@ -150,8 +164,9 @@ public class Game {
             for (Property property : player.getProperties()) {
                 if (property instanceof RealEstate) {
                     RealEstate realEstate = (RealEstate) property;
-                    if (realEstate.getNumberHouses() < RealEstate.MAX_HOUSES && ownsColorSet(player, realEstate.getColor())
-                        && player.getMoney() >= realEstate.getHouseCost() && ((AI) player).getBuyDecision()) {
+                    if (realEstate.getNumberHouses() < RealEstate.MAX_HOUSES
+                            && ownsColorSet(player, realEstate.getColor())
+                            && player.getMoney() >= realEstate.getHouseCost() && ((AI) player).getBuyDecision()) {
                         buildHouses(player);
                         break;
                     }
@@ -165,10 +180,11 @@ public class Game {
         players.add(new AI("Player 2", STARTING_MONEY));
         players.add(new Human("HumanPlayer", STARTING_MONEY));
     }
+
     public static boolean ownsColorSet(Player player, String color) {
         int totalProperties = 0;
         int ownedProperties = 0;
-    
+
         for (Square square : boardSquares) {
             if (square instanceof RealEstate) {
                 RealEstate realEstate = (RealEstate) square;
@@ -196,6 +212,5 @@ public class Game {
             }
         }
     }
-    
-    
+
 }
