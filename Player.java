@@ -7,6 +7,7 @@ public class Player {
     private int position;
     private boolean inJail;
     private int jailTurns;
+    private int rollTurns;
 
     public Player(String name, int money) {
         this.name = name;
@@ -14,6 +15,7 @@ public class Player {
         position = 0;
         inJail = false;
         jailTurns = 0;
+        rollTurns = 0;
     }
 
     public String getPropertiesNames() {
@@ -70,5 +72,13 @@ public class Player {
 
     public void setJailTurns(int jailTurns) {
         this.jailTurns = jailTurns;
+    }
+
+    public int getRollTurns() {
+        return rollTurns;
+    }
+
+    public void setRollTurns(int rollTurns) {
+        this.rollTurns = rollTurns;
     }
 }
