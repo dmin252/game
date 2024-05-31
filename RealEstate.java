@@ -34,7 +34,7 @@ public class RealEstate extends Property {
     }
 
     public int getHouseCost() {
-        return houseCost; 
+        return houseCost;
     }
 
     @Override
