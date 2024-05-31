@@ -230,8 +230,7 @@ public class Game {
     public static void takeTurn(Player player) {
         System.out.println(player.getName() + "'s turn:");
         int roll = Dice.roll();
-        // reset rollTurns if not a double, because if rollTurns check how many
-        // consecutive doubles player gets
+        // reset rollTurns if not a double, because rollTurns check how many consecutive doubles a player gets
         if (!Dice.isDouble()) {
             player.setRollTurns(0);
         }
