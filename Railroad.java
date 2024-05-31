@@ -5,6 +5,7 @@ public class Railroad extends Property {
     }
 
     public int getCost() {
+        
         return 25;
     }
 

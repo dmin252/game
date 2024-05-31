@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Game {
-    static final int STARTING_MONEY = 100;
+    static final int STARTING_MONEY = 1500;
     static ArrayList<Player> players = new ArrayList<Player>();
     static ArrayList<Square> boardSquares = Board.makeBoard();
     static Scanner scanner = new Scanner(System.in);
@@ -95,6 +95,38 @@ public class Game {
             player.setInJail(true);
             player.setJailTurns(3);
             System.out.println(player.getName() + " landed on Go To Jail and is now in jail.");
+        } else if (square instanceof LuxuryTax) {
+            player.setMoney(player.getMoney() - 100);
+            System.out.println(player.getName() + " landed on Luxury Tax and paid $100.");
+            if (player.getMoney() < 0) {
+                System.out.println(player.getName() + " is bankrupt and out of the game!");
+                players.remove(player);
+                for (Property propertyToRemove : player.getProperties()) {
+                    propertyToRemove.setOwner(null);
+                }
+            } 
+        } else if (square instanceof IncomeTax) {
+            int totalWorth = player.getMoney();
+            for (Property property : player.getProperties()) {
+                totalWorth += property.getpurchasePrice();
+                if (property instanceof RealEstate) {
+                    totalWorth += ((RealEstate) property).getNumberHouses() * ((RealEstate)property).getHouseCost();
+                }
+            }
+            if (totalWorth * 0.1 < 200) {
+                player.setMoney(player.getMoney() - (int)(totalWorth * 0.1));
+                System.out.println(player.getName() + " landed on Income Tax and paid 10% of their total worth.");
+            } else {
+                player.setMoney(player.getMoney() - 200);
+                System.out.println(player.getName() + " landed on Income Tax and paid $200.");
+            }
+            if (player.getMoney() < 0) {
+                System.out.println(player.getName() + " is bankrupt and out of the game!");
+                players.remove(player);
+                for (Property propertyToRemove : player.getProperties()) {
+                    propertyToRemove.setOwner(null);
+                }
+            } 
         }
     }
 

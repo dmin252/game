@@ -9,7 +9,7 @@ public class Board {
         board.add(new RealEstate("Mediterranean Avenue", 60, "Brown"));
         board.add(new CommunityChest());
         board.add(new RealEstate("Baltic Avenue", 60, "Brown"));
-        board.add(new FreeParking());
+        board.add(new IncomeTax());
         board.add(new Railroad("Reading Railroad"));
         board.add(new RealEstate("Oriental Avenue", 100, "Light Blue"));
         board.add(new Chance());
@@ -43,7 +43,7 @@ public class Board {
         board.add(new Railroad("Short Line"));
         board.add(new Chance());
         board.add(new RealEstate("Park Place", 350, "Dark Blue"));
-        board.add(new FreeParking());
+        board.add(new LuxuryTax());
         board.add(new RealEstate("Boardwalk", 400, "Dark Blue"));
         
         return board;
