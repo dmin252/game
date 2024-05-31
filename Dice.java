@@ -5,6 +5,8 @@ public class Dice {
     public static int roll() {
         roll1 = (int) (Math.random() * 6 + 1);
         roll2 = (int) (Math.random() * 6 + 1);
+        //roll1 = 3;
+        //roll2 = 3;
         
         System.out.println("Rolled a " + roll1 + " and " + roll2);
         return roll1 + roll2;

@@ -4,10 +4,15 @@ import java.util.Scanner;
 public class Game {
     static final int STARTING_MONEY = 1500;
     static ArrayList<Player> players = new ArrayList<Player>();
-    static ArrayList<Square> boardSquares = Board.makeBoard();
+    static CardDeck chanceDeck = new CardDeck();
+    static CardDeck communityChestDeck = new CardDeck();
+    static ArrayList<Square> boardSquares = Board.makeBoard(chanceDeck, communityChestDeck);
     static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
+        initializeCards(chanceDeck, communityChestDeck);
+        chanceDeck.shuffle();
+        communityChestDeck.shuffle();
         int numTurns = 0;
         addPlayers();
         while (players.size() > 1) {
@@ -20,6 +25,17 @@ public class Game {
             }
         }
         System.out.println(players.get(0).getName() + " wins!");
+    }
+    public static void initializeCards(CardDeck chanceDeck, CardDeck communityChestDeck) {
+        // Add Chance cards
+        chanceDeck.addCard(new MoveToSquareCard("Advance to Go", 0));
+        chanceDeck.addCard(new MoveToSquareCard("Advance to Illinois Avenue", 24));
+        chanceDeck.addCard(new MoveToSquareCard("Advance to St. Charles Place", 11));
+        chanceDeck.addCard(new MoveToSquareCard("Advance to Reading Railroad", 5));
+        chanceDeck.addCard(new MoveToSquareCard("Advance to Boardwalk", 39));
+        chanceDeck.addCard(new MoveToSquareCard("Go to Jail", 30));
+        
+
     }
 
     public static void printGameStatus(int numTurns, Player currentPlayer) {
@@ -100,6 +116,9 @@ public class Game {
             System.out.println(player.getName() + " landed on Free Parking.");
         } else if (square instanceof Chance) {
             System.out.println(player.getName() + " landed on Chance.");
+            Card card = chanceDeck.drawCard();
+            System.out.println(player.getName() + " drew a Chance card: " + card.getDescription());
+            card.applyEffect(player);
         } else if (square instanceof CommunityChest) {
             System.out.println(player.getName() + " landed on Community Chest.");
         } else if (square instanceof GoToJail) {
@@ -198,6 +217,9 @@ public class Game {
     public static void takeTurn(Player player) {
         System.out.println(player.getName() + "'s turn:");
         int roll = Dice.roll();
+        if (!Dice.isDouble()) {
+            player.setRollTurns(0);
+        }
         movePlayer(player, roll);
 
         if (player instanceof Human) {
@@ -225,9 +247,10 @@ public class Game {
     }
 
     public static void addPlayers() {
-        players.add(new AI("Player 1", STARTING_MONEY));
-        players.add(new AI("Player 2", STARTING_MONEY));
+        //players.add(new AI("Player 1", STARTING_MONEY));
+        //players.add(new AI("Player 2", STARTING_MONEY));
         players.add(new Human("HumanPlayer", STARTING_MONEY));
+        players.add(new Human("HumanPlayer2", STARTING_MONEY));
     }
 
     // checks if you own every real estate of a certain color
