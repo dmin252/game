@@ -55,6 +55,7 @@ public class Player {
     public void removeProperty(int indexProperty) {
         properties.remove(indexProperty);
     }
+
     public boolean isInJail() {
         return inJail;
     }

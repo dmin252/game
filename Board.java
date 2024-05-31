@@ -37,11 +37,9 @@ public class Board {
         board.add(new RealEstate("Marvin Gardens", 280, "Yellow", 150, new int[] { 24, 120, 360, 850, 1025, 1200 }));
         board.add(new GoToJail());
         board.add(new RealEstate("Pacific Avenue", 300, "Green", 200, new int[] { 26, 130, 390, 900, 1100, 1275 }));
-        board.add(new RealEstate("North Carolina Avenue", 300, "Green", 200,
-                new int[] { 26, 130, 390, 900, 1100, 1275 }));
+        board.add(new RealEstate("North Carolina Avenue", 300, "Green", 200, new int[] { 26, 130, 390, 900, 1100, 1275 }));
         board.add(new CommunityChest());
-        board.add(
-                new RealEstate("Pennsylvania Avenue", 320, "Green", 200, new int[] { 28, 150, 450, 1000, 1200, 1400 }));
+        board.add(new RealEstate("Pennsylvania Avenue", 320, "Green", 200, new int[] { 28, 150, 450, 1000, 1200, 1400 }));
         board.add(new Railroad("Short Line"));
         board.add(new Chance());
         board.add(new RealEstate("Park Place", 350, "Dark Blue", 200, new int[] { 35, 175, 500, 1100, 1300, 1500 }));

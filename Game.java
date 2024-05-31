@@ -84,7 +84,6 @@ public class Game {
         if (square instanceof Property) {
             handleProperty(player, (Property) square);
         } else if (square instanceof FreeParking) {
-            // Handle Free Parking
             System.out.println(player.getName() + " landed on Free Parking.");
         } else if (square instanceof Chance) {
             System.out.println(player.getName() + " landed on Chance.");
@@ -104,17 +103,18 @@ public class Game {
                 for (Property propertyToRemove : player.getProperties()) {
                     propertyToRemove.setOwner(null);
                 }
-            } 
+            }
         } else if (square instanceof IncomeTax) {
             int totalWorth = player.getMoney();
             for (Property property : player.getProperties()) {
                 totalWorth += property.getpurchasePrice();
                 if (property instanceof RealEstate) {
-                    totalWorth += ((RealEstate) property).getNumberHouses() * ((RealEstate)property).getHouseCost();
+                    totalWorth += ((RealEstate) property).getNumberHouses() * ((RealEstate) property).getHouseCost();
                 }
             }
+            // pay 10% of total worth or $200, whichever is less
             if (totalWorth * 0.1 < 200) {
-                player.setMoney(player.getMoney() - (int)(totalWorth * 0.1));
+                player.setMoney(player.getMoney() - (int) (totalWorth * 0.1));
                 System.out.println(player.getName() + " landed on Income Tax and paid 10% of their total worth.");
             } else {
                 player.setMoney(player.getMoney() - 200);
@@ -126,13 +126,14 @@ public class Game {
                 for (Property propertyToRemove : player.getProperties()) {
                     propertyToRemove.setOwner(null);
                 }
-            } 
+            }
         }
     }
 
     public static void handleProperty(Player player, Property property) {
         if (property.getOwner() == null) {
             if (player instanceof AI) {
+                // random decision to buy property
                 if (player.getMoney() >= property.getpurchasePrice() && ((AI) player).getBuyDecision()) {
                     buyProperty(player, property);
                 }
@@ -196,6 +197,7 @@ public class Game {
             for (Property property : player.getProperties()) {
                 if (property instanceof RealEstate) {
                     RealEstate realEstate = (RealEstate) property;
+                    // random decision to buy a house
                     if (realEstate.getNumberHouses() < RealEstate.MAX_HOUSES
                             && ownsColorSet(player, realEstate.getColor())
                             && player.getMoney() >= realEstate.getHouseCost() && ((AI) player).getBuyDecision()) {
@@ -215,6 +217,7 @@ public class Game {
         players.add(new Human("HumanPlayer", STARTING_MONEY));
     }
 
+    // checks if you own every real estate of a certain color
     public static boolean ownsColorSet(Player player, String color) {
         int totalProperties = 0;
         int ownedProperties = 0;
@@ -233,15 +236,20 @@ public class Game {
         return totalProperties == ownedProperties;
     }
 
+    // only used for human players
     public static void buildHouses(Player player) {
         System.out.println(player.getName() + " is building houses.");
         for (Square square : boardSquares) {
             if (square instanceof RealEstate) {
                 RealEstate realEstate = (RealEstate) square;
-                if (realEstate.getOwner() == player && ownsColorSet(player, realEstate.getColor()) && realEstate.getNumberHouses() < RealEstate.MAX_HOUSES) {
-                    System.out.println("You have $" + player.getMoney() + ". How many houses do you want to build for " + realEstate.getName() + "("+ realEstate.getNumberHouses() + " Houses)? It costs $" + realEstate.getHouseCost() + " for one?");
+                if (realEstate.getOwner() == player && ownsColorSet(player, realEstate.getColor())
+                        && realEstate.getNumberHouses() < RealEstate.MAX_HOUSES) {
+                    System.out.println("You have $" + player.getMoney() + ". How many houses do you want to build for "
+                            + realEstate.getName() + "(" + realEstate.getNumberHouses() + " Houses)? It costs $"
+                            + realEstate.getHouseCost() + " for one?");
                     int input = scanner.nextInt();
-                    if (input >= 0 && input <= RealEstate.MAX_HOUSES - realEstate.getNumberHouses() && player.getMoney() >= realEstate.getHouseCost() * input) {
+                    if (input >= 0 && input <= RealEstate.MAX_HOUSES - realEstate.getNumberHouses()
+                            && player.getMoney() >= realEstate.getHouseCost() * input) {
                         realEstate.setNumberHouses(realEstate.getNumberHouses() + input);
                         player.setMoney(player.getMoney() - realEstate.getHouseCost() * input);
                         System.out.println(player.getName() + " built " + input + " houses on " + realEstate.getName());

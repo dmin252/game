@@ -3,7 +3,7 @@ public class RealEstate extends Property {
     static final int MAX_HOUSES = 5;
     private String color;
     private int houseCost;
-    private int[] rents; 
+    private int[] rents;
 
     public RealEstate(String name, int purchasePrice, String color, int houseCost, int[] rents) {
         super(name, purchasePrice);
@@ -34,7 +34,7 @@ public class RealEstate extends Property {
     }
 
     public int getHouseCost() {
-        return houseCost;  // Example house cost, can vary
+        return houseCost; 
     }
 
     @Override
@@ -46,5 +46,5 @@ public class RealEstate extends Property {
     public String toString() {
         return "Property " + getName() + " owned by " + getOwner().getName() + " with " + numberHouses + " houses";
     }
-    
+
 }

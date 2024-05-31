@@ -1,5 +1,4 @@
 public class Property extends Square {
-    // instance variables
     private int purchasePrice;
     private Player owner;
 
