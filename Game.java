@@ -26,15 +26,15 @@ public class Game {
         }
         System.out.println(players.get(0).getName() + " wins!");
     }
+
     public static void initializeCards(CardDeck chanceDeck, CardDeck communityChestDeck) {
-        // Add Chance cards
         chanceDeck.addCard(new MoveToSquareCard("Advance to Go", 0));
         chanceDeck.addCard(new MoveToSquareCard("Advance to Illinois Avenue", 24));
         chanceDeck.addCard(new MoveToSquareCard("Advance to St. Charles Place", 11));
         chanceDeck.addCard(new MoveToSquareCard("Advance to Reading Railroad", 5));
         chanceDeck.addCard(new MoveToSquareCard("Advance to Boardwalk", 39));
         chanceDeck.addCard(new MoveToSquareCard("Go to Jail", 30));
-        
+
         communityChestDeck.addCard(new MoneyCard("Bank error in your favor. Collect $200", 200));
         communityChestDeck.addCard(new MoneyCard("Doctor's fees. Pay $50", -50));
         communityChestDeck.addCard(new MoneyCard("Income tax refund. Collect $20", 20));
@@ -93,7 +93,7 @@ public class Game {
                 player.setInJail(false);
                 player.setJailTurns(0);
                 System.out.println(player.getName() + " rolled a double and is out of jail.");
-            } 
+            }
             int oldPosition = player.getPosition();
             int newPosition = (oldPosition + roll) % boardSquares.size();
             player.setPosition(newPosition);
@@ -115,7 +115,7 @@ public class Game {
                     System.out.println(player.getName() + " rolled a double and gets to roll again.");
                     takeTurn(player);
                 }
-            } 
+            }
         }
     }
 
@@ -230,13 +230,15 @@ public class Game {
     public static void takeTurn(Player player) {
         System.out.println(player.getName() + "'s turn:");
         int roll = Dice.roll();
+        // reset rollTurns if not a double, because if rollTurns check how many
+        // consecutive doubles player gets
         if (!Dice.isDouble()) {
             player.setRollTurns(0);
         }
         movePlayer(player, roll);
 
         if (player instanceof Human) {
-            if (player.getProperties().size() > 0){
+            if (player.getProperties().size() > 0) {
                 System.out.println("Do you want to buy a house? (y/n)");
                 String input = scanner.nextLine();
                 if (input.equals("y")) {
@@ -262,8 +264,8 @@ public class Game {
     }
 
     public static void addPlayers() {
-        //players.add(new AI("Player 1", STARTING_MONEY));
-        //players.add(new AI("Player 2", STARTING_MONEY));
+        // players.add(new AI("Player 1", STARTING_MONEY));
+        // players.add(new AI("Player 2", STARTING_MONEY));
         players.add(new Human("HumanPlayer", STARTING_MONEY));
         players.add(new Human("HumanPlayer2", STARTING_MONEY));
     }

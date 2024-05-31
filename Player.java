@@ -78,6 +78,7 @@ public class Player {
         return rollTurns;
     }
 
+    // This method is used to count the number of doubles rolled by the player
     public void setRollTurns(int rollTurns) {
         this.rollTurns = rollTurns;
     }

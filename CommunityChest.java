@@ -5,6 +5,7 @@ public class CommunityChest extends Square {
         super("Community Chest");
         this.deck = deck;
     }
+
     public void drawCard(Player player) {
         Card card = deck.drawCard();
         System.out.println(player.getName() + " drew a Community Chest card: " + card.getDescription());

@@ -14,7 +14,7 @@ public class CardDeck {
 
     public Card drawCard() {
         Card card = cards.poll();
-        cards.add(card); 
+        cards.add(card);
         return card;
     }
 
@@ -26,5 +26,5 @@ public class CardDeck {
             ((LinkedList<Card>) cards).set(rand, temp);
         }
     }
-    
+
 }

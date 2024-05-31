@@ -8,5 +8,6 @@ public abstract class Card {
     public String getDescription() {
         return description;
     }
+
     public abstract void applyEffect(Player player);
 }
