@@ -35,7 +35,17 @@ public class Game {
         chanceDeck.addCard(new MoveToSquareCard("Advance to Boardwalk", 39));
         chanceDeck.addCard(new MoveToSquareCard("Go to Jail", 30));
         
-
+        communityChestDeck.addCard(new MoneyCard("Bank error in your favor. Collect $200", 200));
+        communityChestDeck.addCard(new MoneyCard("Doctor's fees. Pay $50", -50));
+        communityChestDeck.addCard(new MoneyCard("Income tax refund. Collect $20", 20));
+        communityChestDeck.addCard(new MoneyCard("Life insurance matures. Collect $100", 100));
+        communityChestDeck.addCard(new MoneyCard("Pay hospital fees of $100", -100));
+        communityChestDeck.addCard(new MoneyCard("Pay school fees of $50", -50));
+        communityChestDeck.addCard(new MoneyCard("Receive $25 consultancy fee", 25));
+        communityChestDeck.addCard(new MoneyCard("You have won second prize in a beauty contest. Collect $10", 10));
+        communityChestDeck.addCard(new MoneyCard("You inherit $100", 100));
+        communityChestDeck.addCard(new MoneyCard("From sale of stock you get $50", 50));
+        communityChestDeck.addCard(new MoneyCard("Holiday fund matures. Receive $100", 100));
     }
 
     public static void printGameStatus(int numTurns, Player currentPlayer) {
@@ -121,6 +131,9 @@ public class Game {
             card.applyEffect(player);
         } else if (square instanceof CommunityChest) {
             System.out.println(player.getName() + " landed on Community Chest.");
+            Card card = communityChestDeck.drawCard();
+            System.out.println(player.getName() + " drew a Community Chest card: " + card.getDescription());
+            card.applyEffect(player);
         } else if (square instanceof GoToJail) {
             player.setPosition(10);
             player.setInJail(true);
