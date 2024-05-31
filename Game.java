@@ -236,10 +236,12 @@ public class Game {
         movePlayer(player, roll);
 
         if (player instanceof Human) {
-            System.out.println("Do you want to buy a house? (y/n)");
-            String input = scanner.nextLine();
-            if (input.equals("y")) {
-                buildHouses(player);
+            if (player.getProperties().size() > 0){
+                System.out.println("Do you want to buy a house? (y/n)");
+                String input = scanner.nextLine();
+                if (input.equals("y")) {
+                    buildHouses(player);
+                }
             }
         } else if (player instanceof AI) {
             for (Property property : player.getProperties()) {
